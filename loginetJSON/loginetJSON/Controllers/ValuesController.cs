@@ -17,7 +17,7 @@ namespace loginetJSON.Controllers
         public async Task<IEnumerable<User>> Get()
         {
             string Url = "http://jsonplaceholder.typicode.com/users";
-            List<User> tmp = await AsyncActions.GetJsonAsync<User>(Url);
+            IEnumerable<User> tmp = await AsyncActions.GetJsonAsync<IEnumerable<User>>(Url);
             return tmp;
         }
 

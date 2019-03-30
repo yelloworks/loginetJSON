@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using loginetJSON.Entities;
@@ -12,16 +13,17 @@ namespace loginetJSON.Helper
 {
     public static class AsyncActions
     {
-        public static async Task<List<T>> GetJsonAsync<T>(string uri)
+        public static async Task<T> GetJsonAsync<T>(string uri)
         {
+
             using (var client = new HttpClient())
             using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
-            using (var response = await client.SendAsync(request,HttpCompletionOption.ResponseHeadersRead))
+            using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
             {
                 var stream = await response.Content.ReadAsStreamAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    return DeserializeJsonFromStream<List<T>>(stream);
+                    return DeserializeJsonFromStream<T>(stream);
                 }
                 throw new NotImplementedException();
             }
@@ -37,6 +39,7 @@ namespace loginetJSON.Helper
             {
                 var js = new JsonSerializer();
                 var searchResult = js.Deserialize<T>(jtr);
+                
                 return searchResult;
             }
         }

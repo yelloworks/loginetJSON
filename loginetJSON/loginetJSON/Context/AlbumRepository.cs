@@ -19,18 +19,18 @@ namespace loginetJSON.Context
 
         public async Task<IEnumerable<Album>> GetList()
         {
-            return await AsyncActions.GetJsonAsync<Album>(_uri);
+            return await AsyncActions.GetJsonAsync<IEnumerable<Album>>(_uri);
         }
 
         public async Task<Album> GetItem(int id)
         {
             var values = await AsyncActions.GetJsonAsync<Album>(_uri + "/" + id);
-            return values.FirstOrDefault();
+            return values;
         }
 
         public async Task<IEnumerable<Album>> GetBy(string paramName, string param)
         {
-            return await AsyncActions.GetJsonAsync<Album>(_uri + "?" + paramName + "=" + param);
+            return await AsyncActions.GetJsonAsync<IEnumerable<Album>>(_uri + "?" + paramName + "=" + param);
         }
     }
 }
